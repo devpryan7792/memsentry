@@ -2,7 +2,7 @@
 
 **Detection tooling for memory-resident Linux tradecraft.**
 
-[![Tests](https://img.shields.io/badge/tests-7%20passing-brightgreen?style=flat-square)]()
+[![Tests](https://img.shields.io/badge/tests-47%20passing-brightgreen?style=flat-square)]()
 [![License](https://img.shields.io/badge/license-MIT%20OR%20Apache--2.0-blue?style=flat-square)]()
 [![Platform](https://img.shields.io/badge/platform-linux%20x86__64-informational?style=flat-square)]()
 [![MSRV](https://img.shields.io/badge/rust-1.82%2B-orange?style=flat-square)]()
@@ -116,7 +116,7 @@ memsentry/
 | Component | State | Tests |
 | :--- | :--- | ---: |
 | `raw-syscall` | Complete | 7 |
-| `procscan` | In progress | — |
+| `procscan` | Complete | 40 |
 | `memsentry` detectors | Planned | — |
 
 Current verification:
@@ -124,8 +124,23 @@ Current verification:
 ```bash
 cargo fmt --check
 cargo clippy --workspace --all-targets   # zero warnings
-cargo test --workspace
+cargo test --workspace                   # 47 passing
 ```
+
+### A finding worth stating
+
+Building `procscan` surfaced an assumption that the detector design depended
+on. A mapping demoted to `PROT_NONE` is **still readable by the process that
+owns it**: the kernel's `FOLL_FORCE` behaviour makes `/proc/self/mem` return
+the real contents of a parked page rather than faulting.
+
+The consequence is that access state cannot be treated as evidence. "The pages
+are parked" does not mean "the contents are hidden", and a parked region can
+still hold plaintext. The detector therefore ranks regions by *content* —
+entropy, marker search — and uses protection state only to narrow the search.
+The behaviour is pinned by `crates/procscan/tests/memory_access.rs` so a kernel
+change that alters it shows up as a test failure rather than a silent
+regression.
 
 ---
 

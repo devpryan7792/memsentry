@@ -1,0 +1,16 @@
+[package]
+name = "procscan"
+description = "Read-only parsing and analysis of Linux /proc process state"
+version.workspace = true
+edition.workspace = true
+authors.workspace = true
+license.workspace = true
+rust-version.workspace = true
+repository = "https://github.com/devpryan7792/memsentry"
+keywords = ["linux", "procfs", "forensics", "process", "memory"]
+categories = ["os::unix-apis", "command-line-utilities"]
+
+[dependencies]
+
+[dev-dependencies]
+raw-syscall = { path = "../raw-syscall" }

@@ -3,5 +3,12 @@
 version = 3
 
 [[package]]
+name = "procscan"
+version = "0.1.0"
+dependencies = [
+ "raw-syscall",
+]
+
+[[package]]
 name = "raw-syscall"
 version = "0.1.0"
