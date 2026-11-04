@@ -1,0 +1,15 @@
+[package]
+name = "raw-syscall"
+description = "Direct x86_64 Linux syscall primitives without libc, for precise process inspection"
+version.workspace = true
+edition.workspace = true
+authors.workspace = true
+license.workspace = true
+rust-version.workspace = true
+repository = "https://github.com/devpryan7792/memsentry"
+keywords = ["linux", "syscall", "no-std", "x86-64", "systems"]
+categories = ["os::unix-apis", "no-std"]
+
+[dependencies]
+
+[dev-dependencies]
